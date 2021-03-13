@@ -74,7 +74,7 @@ Replace X, Y with the side's number (1-6) if you want to be more specific.
 - `SLIDE_X`: Slide the cube when side #X is up.
 - `FLIP_X_Y`: Flip the cube from side #X to side #Y.
 
-## My example setup:
+## My example setup: https://youtu.be/nm5i1GbjaZQ
 ![](/screenshots/overview.png)
 1. **Slide = deactivate cube**
 2. **Shake = control Spotify**
