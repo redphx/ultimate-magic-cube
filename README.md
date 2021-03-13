@@ -27,7 +27,7 @@ Unlocking the full potential of [Mi/Aqara Magic Cube](https://www.aqara.com/us/c
 ```
 
 ## Setup
-Edit your cube's ID in `Prepare message` node.  
+Import `ultumate-magic-cube.json` file to your Node-RED project (it's recommended to create a separate flow/tab for it). Edit your cube's ID in `Prepare message` node.  
 I'm using `deconz_event` event to listen to the cube. If you're using ConBee II or something similar then you can ignore this. Otherwise you'll need to make sure events & gestures pass to `Parse event` are in this format:
 ```json
 {
