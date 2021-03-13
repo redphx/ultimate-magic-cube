@@ -1,0 +1,1886 @@
+[
+    {
+        "id": "bdc1e151.ee48b",
+        "type": "subflow",
+        "name": "Get current Ceiling Light",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "fa970f4d.c54238"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 500,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "a1d69878.863d88",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99"
+    },
+    {
+        "id": "a1d69878.863d88",
+        "type": "function",
+        "z": "bdc1e151.ee48b",
+        "name": "",
+        "func": "let light_on = ''\n\nfor (let i = 0; i < msg.payload.length; i++) {\n    let light = msg.payload[i]\n    // lights[light['entity_id']] = light\n    \n    if (light['state'] === 'on') {\n        light_on = light['entity_id']\n        break\n    }\n}\n\nif (light_on) {\n    return {\n        light_on: light_on,\n    }\n}\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 360,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fa970f4d.c54238",
+        "type": "ha-get-entities",
+        "z": "bdc1e151.ee48b",
+        "server": "20327e2.7052382",
+        "name": "",
+        "rules": [
+            {
+                "property": "entity_id",
+                "logic": "includes",
+                "value": "[\"light.ceiling_light\", \"light.ceiling_light_nightlight\"]",
+                "valueType": "jsonata"
+            }
+        ],
+        "output_type": "array",
+        "output_empty_results": false,
+        "output_location_type": "msg",
+        "output_location": "payload",
+        "output_results_count": 1,
+        "x": 190,
+        "y": 80,
+        "wires": [
+            [
+                "a1d69878.863d88"
+            ]
+        ]
+    },
+    {
+        "id": "a5e2dd0d.7d0dd8",
+        "type": "subflow",
+        "name": "Handle Cube's gesture",
+        "info": "",
+        "category": "",
+        "in": [
+            {
+                "x": 229,
+                "y": 402,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 689,
+                "y": 182,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 0
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 242,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 1
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 302,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 2
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 362,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 3
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 422,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 4
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 482,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 5
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 542,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 6
+                    }
+                ]
+            },
+            {
+                "x": 689,
+                "y": 602,
+                "wires": [
+                    {
+                        "id": "e57a121e.c04e8",
+                        "port": 7
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "color": "#DDAA99",
+        "outputLabels": [
+            "Shake",
+            "Free Fall",
+            "Flip 90",
+            "Flip 180",
+            "Slide",
+            "Double Tap",
+            "Rotate Right",
+            "Rotate Left"
+        ]
+    },
+    {
+        "id": "e57a121e.c04e8",
+        "type": "switch",
+        "z": "a5e2dd0d.7d0dd8",
+        "name": "Check Gesture",
+        "property": "action.gesture",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.SHAKE",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.FREE_FALL",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.FLIP_90",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.FLIP_180",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.SLIDE",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.DOUBLE_TAP",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.ROTATE_RIGHT",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "$parent.CUBE_GESTURE.ROTATE_LEFT",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 8,
+        "x": 449,
+        "y": 402,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "b86ca53e.b4c1",
+        "type": "tab",
+        "label": "Ultimate Magic Cube",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "52a586c.e523af8",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Spotify = Shake",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "8df7d243.68cd48",
+            "4b12b1.0aa8c55",
+            "fbec7e95.51409",
+            "e37c1e2d.d67a88",
+            "cfd04912.44cc88",
+            "3fa72dd.50062d2",
+            "1e2fb1b2.7be80e",
+            "c750e5bc.1ea178",
+            "cfb0f461.838068",
+            "8141db93.1d5428",
+            "d4a6110b.ad8a38",
+            "bd91ff0d.c95918"
+        ],
+        "x": 1591,
+        "y": 234,
+        "w": 1492,
+        "h": 322
+    },
+    {
+        "id": "5d7166b.ad23618",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Deactivate after X seconds of inactivity",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "cc8a9501.34f21",
+            "26bee340.0e6b04",
+            "4e8750de.82efd",
+            "4d9f4ea7.014df8",
+            "6c83f4f4.a6773c",
+            "e808eec8.32408"
+        ],
+        "x": 1274,
+        "y": 1759,
+        "w": 1112,
+        "h": 222
+    },
+    {
+        "id": "6406fa8b.157d94",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "TV/Soundbar = Double Tap any other side",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "5482aaa8.d0399c",
+            "e21f07ac.387628",
+            "55555bd9.3ca81c",
+            "7c19a1a3.e4567",
+            "aba59940.29dcd8"
+        ],
+        "x": 1591,
+        "y": 1254,
+        "w": 792,
+        "h": 207
+    },
+    {
+        "id": "676ee28e.4d58a4",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Initialize",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "34a6b360.ad456c",
+            "ae81c5b5.1df8e",
+            "20b59792.e3de08",
+            "25ad269b.72adea"
+        ],
+        "x": 134,
+        "y": 379,
+        "w": 732,
+        "h": 142
+    },
+    {
+        "id": "74e585fe.1251b4",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Help",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "d65af6b8.44231",
+            "2f2c4816.8da99"
+        ],
+        "x": 134,
+        "y": 199,
+        "w": 192,
+        "h": 122
+    },
+    {
+        "id": "7fcc3d10.12ad74",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Activate Cube",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "37dab0f2.2393a",
+            "58be0517.9ac994",
+            "f61f61c0.04c3b8",
+            "5f667ef6.145da",
+            "ade06a22.546ae8"
+        ],
+        "x": 1274,
+        "y": 1539,
+        "w": 902,
+        "h": 142
+    },
+    {
+        "id": "b12f3408.51e208",
+        "type": "group",
+        "z": "b86ca53e.b4c1",
+        "name": "Light Scene = Double Tap Aqara Side",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "99e3985e.960d88",
+            "8bc924e5.08f258",
+            "2588e38b.38046c",
+            "d598b6e5.f44508",
+            "b6dd79ce.09a7c",
+            "4ac1d0b4.8ca128",
+            "d62cc6df.ea3288",
+            "b24c0c24.37dd98",
+            "a9afdf14.2fd4f8",
+            "e4d159c0.b80be",
+            "90bbf08d.d447a8",
+            "36a865b9.6fcc4a",
+            "2186e060.0dfc88",
+            "5ce9b0ed.eb0998",
+            "a393afa2.52b578",
+            "b765aa50.6f8ca",
+            "d5173e19.fae878",
+            "6c111759.dd3af",
+            "233f4abf.d8def6"
+        ],
+        "x": 1591,
+        "y": 634,
+        "w": 1552,
+        "h": 562
+    },
+    {
+        "id": "cd6529d0.495c78",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "name": "Activated?",
+        "property": "cube.activated_mode",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "nnull"
+            },
+            {
+                "t": "null"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 1127,
+        "y": 835,
+        "wires": [
+            [
+                "26eb9cfe.57c124"
+            ],
+            [
+                "37dab0f2.2393a"
+            ]
+        ]
+    },
+    {
+        "id": "37dab0f2.2393a",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "g": "7fcc3d10.12ad74",
+        "name": "Is activation gesture?",
+        "property": "true",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "action.detailed_gesture in $flowContext('CUBE_ACTIVATION_GESTURES')",
+                "vt": "jsonata"
+            },
+            {
+                "t": "eq",
+                "v": "action.gesture in $flowContext('CUBE_ACTIVATION_GESTURES')",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 1400,
+        "y": 1600,
+        "wires": [
+            [
+                "ade06a22.546ae8"
+            ],
+            [
+                "5f667ef6.145da"
+            ]
+        ]
+    },
+    {
+        "id": "cc8a9501.34f21",
+        "type": "debug",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "Deactivated!",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "\"Deactivated\"",
+        "targetType": "jsonata",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2270,
+        "y": 1800,
+        "wires": []
+    },
+    {
+        "id": "58be0517.9ac994",
+        "type": "link out",
+        "z": "b86ca53e.b4c1",
+        "g": "7fcc3d10.12ad74",
+        "name": "",
+        "links": [
+            "26bee340.0e6b04"
+        ],
+        "x": 2135,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "26bee340.0e6b04",
+        "type": "link in",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "",
+        "links": [
+            "59a4b590.8d676c",
+            "87fea816.f77e4",
+            "58be0517.9ac994",
+            "a4c843be.d566f",
+            "4769b031.3bf7d8"
+        ],
+        "x": 1315,
+        "y": 1800,
+        "wires": [
+            [
+                "e808eec8.32408"
+            ]
+        ]
+    },
+    {
+        "id": "162bca44.b53466",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "name": "Parse event",
+        "func": "const GESTURE_ID = flow.get('CUBE_GESTURE_ID')\n\nlet evt = Math.abs(msg.event).toString()\n\nlet gesture = GESTURE_ID[msg.gesture]\nlet detailedGesture = gesture\n\nconst CUBE_GESTURE = flow.get('CUBE_GESTURE')\n\nconst FLOW_CUBE = flow.get('cube')\n// Update last action\nFLOW_CUBE.last_action = FLOW_CUBE.current_action\n\n\nlet lastSide = parseInt(evt[3])\nlet currentSide = parseInt(evt[0])\n\n\nif (CUBE_GESTURE.SLIDE) {\n    if (FLOW_CUBE.last_action) {\n        lastSide = FLOW_CUBE.last_action.last_side \n    }\n}\n\n// Some gestures doesn't have current side/last side info\n// so we need to get it from last action\nconst GESTURES_WITHOUT_SIDES = [\n    CUBE_GESTURE.ROTATE_LEFT,\n    CUBE_GESTURE.ROTATE_RIGHT,\n    CUBE_GESTURE.SHAKE,\n    CUBE_GESTURE.FREE_FALL\n]\n\nif (GESTURES_WITHOUT_SIDES.indexOf(gesture) > -1) {\n    if (FLOW_CUBE.last_action) {\n        // Get sides from last action\n        currentSide = FLOW_CUBE.last_action.current_side\n        lastSide = FLOW_CUBE.last_action.last_side\n    } else {\n        // Unknown\n        currentSide = 0\n        lastSide = 0\n    }\n}\n\n\nswitch (gesture) {\n    case CUBE_GESTURE.DOUBLE_TAP:\n        detailedGesture = CUBE_GESTURE.DOUBLE_TAP + '_' + lastSide\n        break\n    case CUBE_GESTURE.SLIDE:\n        detailedGesture = CUBE_GESTURE.SLIDE + '_' + currentSide\n        break\n    case CUBE_GESTURE.FLIP_90:\n    case CUBE_GESTURE.FLIP_180:\n        detailedGesture = CUBE_GESTURE.FLIP + '_' + lastSide + '_' + currentSide\n        break\n}\n\n\nmsg.action = {\n    'gesture': gesture,\n    'detailed_gesture': detailedGesture,\n    'last_side': lastSide,\n    'current_side': currentSide,\n}\n\n\nFLOW_CUBE.current_action = msg.action\nflow.set('cube', FLOW_CUBE)\n\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 627,
+        "y": 835,
+        "wires": [
+            [
+                "df7f380e.88ff58",
+                "92402ffd.b363a",
+                "4769b031.3bf7d8"
+            ]
+        ]
+    },
+    {
+        "id": "f61f61c0.04c3b8",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "7fcc3d10.12ad74",
+        "name": "Activate cube",
+        "rules": [
+            {
+                "t": "set",
+                "p": "cube.activated_mode",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1960,
+        "y": 1600,
+        "wires": [
+            [
+                "58be0517.9ac994"
+            ]
+        ]
+    },
+    {
+        "id": "4e8750de.82efd",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "Deactivate cube",
+        "rules": [
+            {
+                "t": "set",
+                "p": "cube",
+                "pt": "flow",
+                "to": "{\"activated_mode\":null,\"current_action\":null,\"last_action\":null}",
+                "tot": "json"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2040,
+        "y": 1800,
+        "wires": [
+            [
+                "cc8a9501.34f21"
+            ]
+        ]
+    },
+    {
+        "id": "34a6b360.ad456c",
+        "type": "inject",
+        "z": "b86ca53e.b4c1",
+        "g": "676ee28e.4d58a4",
+        "name": "Node-RED Started ",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 270,
+        "y": 420,
+        "wires": [
+            [
+                "ae81c5b5.1df8e",
+                "20b59792.e3de08"
+            ]
+        ]
+    },
+    {
+        "id": "ae81c5b5.1df8e",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "g": "676ee28e.4d58a4",
+        "name": "Setup Variables",
+        "func": "let GESTURE = {\n    WAKE_UP: 'wakeup',\n    SHAKE: 'shake',\n    FREE_FALL: 'fall',\n    DOUBLE_TAP: 'tap',\n    SLIDE: 'slide',\n    FLIP: 'flip',\n    FLIP_90: 'flip90',\n    FLIP_180: 'flip180',\n    ROTATE_LEFT: 'rotate_left',\n    ROTATE_RIGHT: 'rotate_right',\n}\n\nlet GESTURE_ID = {\n    1: GESTURE.SHAKE,\n    2: GESTURE.FREE_FALL,\n    3: GESTURE.FLIP_90,\n    4: GESTURE.FLIP_180,\n    5: GESTURE.SLIDE,\n    6: GESTURE.DOUBLE_TAP,\n    7: GESTURE.ROTATE_RIGHT,\n    8: GESTURE.ROTATE_LEFT,\n}\n\n// Custom Gestures\nfor (let currentSide = 1; currentSide <= 6; currentSide++) {\n    // Double tap 1 side\n    GESTURE['DOUBLE_TAP_' + currentSide] = GESTURE.DOUBLE_TAP + '_' + currentSide\n\n    // Rotate 1 side\n    GESTURE['ROTATE_LEFT_' + currentSide] = GESTURE.ROTATE_LEFT + '_' + currentSide\n    GESTURE['ROTATE_RIGHT_' + currentSide] = GESTURE.ROTATE_RIGHT + '_' + currentSide\n\n    // Flip from X side to Y side\n    for (let previousSide = 1; previousSide <= 6; previousSide++) {\n        if (currentSide == previousSide) {\n            continue\n        }\n        GESTURE['FLIP_' + currentSide + '_' + previousSide] = GESTURE.FLIP + '_' + currentSide + '_' + previousSide\n    }\n}\n\nflow.set('CUBE_GESTURE', GESTURE)\nflow.set('CUBE_GESTURE_ID', GESTURE_ID)\n\nreturn {}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "25ad269b.72adea"
+            ]
+        ]
+    },
+    {
+        "id": "20b59792.e3de08",
+        "type": "link out",
+        "z": "b86ca53e.b4c1",
+        "g": "676ee28e.4d58a4",
+        "name": "Deactivate Cube",
+        "links": [
+            "4d9f4ea7.014df8"
+        ],
+        "x": 455,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "4d9f4ea7.014df8",
+        "type": "link in",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "",
+        "links": [
+            "20b59792.e3de08",
+            "5cdb136d.a7c4d4"
+        ],
+        "x": 1315,
+        "y": 1940,
+        "wires": [
+            [
+                "6c83f4f4.a6773c"
+            ]
+        ]
+    },
+    {
+        "id": "5482aaa8.d0399c",
+        "type": "subflow:a5e2dd0d.7d0dd8",
+        "z": "b86ca53e.b4c1",
+        "g": "6406fa8b.157d94",
+        "name": "",
+        "env": [],
+        "x": 1917,
+        "y": 1375,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [
+                "7c19a1a3.e4567"
+            ],
+            [
+                "e21f07ac.387628"
+            ],
+            [
+                "55555bd9.3ca81c"
+            ]
+        ]
+    },
+    {
+        "id": "e21f07ac.387628",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "6406fa8b.157d94",
+        "name": "Soundbar: Volume up",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "remote",
+        "service": "send_command",
+        "entityId": "remote.living_room",
+        "data": "{\"device\":\"tv\",\"command\":\"volume up\"}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2237,
+        "y": 1355,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55555bd9.3ca81c",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "6406fa8b.157d94",
+        "name": "Soundbar: Volume down",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "remote",
+        "service": "send_command",
+        "entityId": "remote.living_room",
+        "data": "{\"device\":\"tv\",\"command\":\"volume down\"}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2247,
+        "y": 1415,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8df7d243.68cd48",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Spotify: Next track",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "media_player",
+        "service": "media_next_track",
+        "entityId": "media_player.spotify_redphx",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2927,
+        "y": 455,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4b12b1.0aa8c55",
+        "type": "subflow:a5e2dd0d.7d0dd8",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "",
+        "env": [],
+        "x": 2357,
+        "y": 435,
+        "wires": [
+            [
+                "8141db93.1d5428"
+            ],
+            [],
+            [],
+            [
+                "cfd04912.44cc88"
+            ],
+            [],
+            [
+                "e37c1e2d.d67a88"
+            ],
+            [
+                "c750e5bc.1ea178"
+            ],
+            [
+                "cfb0f461.838068"
+            ]
+        ]
+    },
+    {
+        "id": "fbec7e95.51409",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Spotify: Previous track",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "media_player",
+        "service": "media_previous_track",
+        "entityId": "media_player.spotify_redphx",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2937,
+        "y": 515,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e37c1e2d.d67a88",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Spotify: Play/Pause",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "media_player",
+        "service": "media_play_pause",
+        "entityId": "media_player.spotify_redphx",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2667,
+        "y": 395,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cfd04912.44cc88",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Spotify: Play on Soundbar",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "script",
+        "service": "turn_on",
+        "entityId": "script.spotify_play_soundbar",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2697,
+        "y": 335,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "26eb9cfe.57c124",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "name": "Check activated gesture",
+        "property": "cube.activated_mode",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "CUBE_GESTURE.SHAKE",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "CUBE_GESTURE.DOUBLE_TAP_1",
+                "vt": "flow"
+            },
+            {
+                "t": "eq",
+                "v": "CUBE_GESTURE.DOUBLE_TAP",
+                "vt": "flow"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 1370,
+        "y": 840,
+        "wires": [
+            [
+                "bd91ff0d.c95918"
+            ],
+            [
+                "233f4abf.d8def6"
+            ],
+            [
+                "aba59940.29dcd8"
+            ]
+        ]
+    },
+    {
+        "id": "4769b031.3bf7d8",
+        "type": "link out",
+        "z": "b86ca53e.b4c1",
+        "name": "",
+        "links": [
+            "26bee340.0e6b04"
+        ],
+        "x": 772,
+        "y": 915,
+        "wires": []
+    },
+    {
+        "id": "3fa72dd.50062d2",
+        "type": "ha-get-entities",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "server": "20327e2.7052382",
+        "name": "Get Spotify state",
+        "rules": [
+            {
+                "property": "entity_id",
+                "logic": "is",
+                "value": "media_player.spotify_redphx",
+                "valueType": "str"
+            }
+        ],
+        "output_type": "split",
+        "output_empty_results": false,
+        "output_location_type": "msg",
+        "output_location": "payload",
+        "output_results_count": 1,
+        "x": 1907,
+        "y": 435,
+        "wires": [
+            [
+                "1e2fb1b2.7be80e"
+            ]
+        ]
+    },
+    {
+        "id": "1e2fb1b2.7be80e",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Save Spotify state",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "spotify",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2127,
+        "y": 435,
+        "wires": [
+            [
+                "4b12b1.0aa8c55"
+            ]
+        ]
+    },
+    {
+        "id": "c750e5bc.1ea178",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Playing/Paused",
+        "property": "true",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "spotify.state in [\"off\", \"idle\"]",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2657,
+        "y": 455,
+        "wires": [
+            [
+                "8df7d243.68cd48"
+            ]
+        ]
+    },
+    {
+        "id": "cfb0f461.838068",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Playing/Paused",
+        "property": "true",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "neq",
+                "v": "spotify.state in [\"off\", \"idle\"]",
+                "vt": "jsonata"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2657,
+        "y": 515,
+        "wires": [
+            [
+                "fbec7e95.51409"
+            ]
+        ]
+    },
+    {
+        "id": "8141db93.1d5428",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Get random playlist",
+        "func": "const PLAYLIST = [\n    'spotify:playlist:0saLTEbeS2dlhCT69cfjtd',\n    'spotify:playlist:3jnxBTWgfX4x9Pe6lCHliu',\n    'spotify:playlist:0MC0GlgjynqDhf8OgHeMee',\n    'spotify:playlist:1GkDCe54TtxQN4MzM9ycLf',\n    'spotify:playlist:3I0CjYumKq3aYsB1ZAqKXh',\n    'spotify:playlist:6pfyQ8OMTuaEEfu4k1X1GZ',\n    'spotify:playlist:3ZqaOUo558Rtsg2z7O4LbB',\n]\n\nlet randomPlaylist = PLAYLIST[Math.floor(Math.random() * PLAYLIST.length)]\nreturn {\n    payload: randomPlaylist,\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 2667,
+        "y": 275,
+        "wires": [
+            [
+                "d4a6110b.ad8a38"
+            ]
+        ]
+    },
+    {
+        "id": "d4a6110b.ad8a38",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "Spotify: Change playlist",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "media_player",
+        "service": "play_media",
+        "entityId": "media_player.spotify_redphx",
+        "data": "{\"media_content_id\":\"{{payload}}\",\"media_content_type\":\"playlist\"}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2947,
+        "y": 275,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "25ad269b.72adea",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "g": "676ee28e.4d58a4",
+        "name": "!!! Setup Gestures",
+        "func": "let GESTURE = flow.get('CUBE_GESTURE')\n\nflow.set('CUBE_ACTIVATION_GESTURES', [\n    GESTURE.SHAKE,\n    GESTURE.DOUBLE_TAP,\n    \n    // Double tap Aqara side\n    GESTURE.DOUBLE_TAP_1,\n])\n\nflow.set('CUBE_DEACTIVATION_GESTURES', [\n    GESTURE.SLIDE,\n])\n",
+        "outputs": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 750,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "7c19a1a3.e4567",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "6406fa8b.157d94",
+        "name": "TV: Toggle on/off",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "media_player",
+        "service": "toggle",
+        "entityId": "media_player.living_room_tv_ir",
+        "data": "",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": true,
+        "x": 2227,
+        "y": 1295,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d65af6b8.44231",
+        "type": "comment",
+        "z": "b86ca53e.b4c1",
+        "g": "74e585fe.1251b4",
+        "name": "Cube Sides",
+        "info": "      ┌─────┐\n      │     │\n      │  6  │\n      │     │\n      ├─────┤\n      │     │\n      │  5  │\n      │     │\n┌─────┼─────┼─────┐\n│     │     │     │\n│  4  │  1  │  3  │\n│     │ (A) │     │\n└─────┼─────┼─────┘\n      │     │\n      │  2  │\n      │     │\n      └─────┘\n",
+        "x": 230,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "99e3985e.960d88",
+        "type": "subflow:a5e2dd0d.7d0dd8",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "",
+        "env": [],
+        "x": 1917,
+        "y": 735,
+        "wires": [
+            [
+                "d598b6e5.f44508"
+            ],
+            [],
+            [
+                "36a865b9.6fcc4a"
+            ],
+            [],
+            [],
+            [
+                "b765aa50.6f8ca"
+            ],
+            [
+                "2186e060.0dfc88"
+            ],
+            [
+                "5ce9b0ed.eb0998"
+            ]
+        ]
+    },
+    {
+        "id": "8bc924e5.08f258",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Light: Brightness up",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "light",
+        "service": "turn_on",
+        "entityId": "",
+        "data": "{\"entity_id\":\"{{light_on}}\",\"transition\":2,\"brightness_step_pct\":5}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2537,
+        "y": 1095,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2588e38b.38046c",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Light: Brightness down",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "light",
+        "service": "turn_on",
+        "entityId": "",
+        "data": "{\"entity_id\":\"{{light_on}}\",\"transition\":2,\"brightness_step_pct\":-5}",
+        "dataType": "json",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2547,
+        "y": 1155,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d598b6e5.f44508",
+        "type": "ha-get-entities",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "server": "20327e2.7052382",
+        "name": "Get Living Room Lights",
+        "rules": [
+            {
+                "property": "entity_id",
+                "logic": "is",
+                "value": "group.living_room_lights_nightlight",
+                "valueType": "str"
+            }
+        ],
+        "output_type": "split",
+        "output_empty_results": false,
+        "output_location_type": "msg",
+        "output_location": "payload",
+        "output_results_count": 1,
+        "x": 2247,
+        "y": 675,
+        "wires": [
+            [
+                "b6dd79ce.09a7c"
+            ]
+        ]
+    },
+    {
+        "id": "b6dd79ce.09a7c",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Get entities",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload.attributes.entity_id",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 2467,
+        "y": 675,
+        "wires": [
+            [
+                "4ac1d0b4.8ca128"
+            ]
+        ]
+    },
+    {
+        "id": "4ac1d0b4.8ca128",
+        "type": "split",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Split",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 2627,
+        "y": 675,
+        "wires": [
+            [
+                "d62cc6df.ea3288"
+            ]
+        ]
+    },
+    {
+        "id": "d62cc6df.ea3288",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Get random color",
+        "func": "if (msg.payload === 'light.ceiling_light_nightlight') {\n    return\n}\n\nfunction randomRange(min, max) {\n    return Math.floor(Math.random() * (max - min + 1)) + min\n}\n\nmsg.hs_color = [randomRange(0, 360), randomRange(80, 100)]\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 2807,
+        "y": 675,
+        "wires": [
+            [
+                "b24c0c24.37dd98"
+            ]
+        ]
+    },
+    {
+        "id": "b24c0c24.37dd98",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Light: Change color",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "light",
+        "service": "turn_on",
+        "entityId": "",
+        "data": "{\t    \"entity_id\": payload,\t    \"hs_color\": hs_color,\t    \"transition\": 2\t}",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 3027,
+        "y": 675,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a9afdf14.2fd4f8",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Is ceiling_light_nightlight on?",
+        "property": "light_on",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "light.ceiling_light_nightlight",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 2577,
+        "y": 875,
+        "wires": [
+            [
+                "90bbf08d.d447a8"
+            ]
+        ]
+    },
+    {
+        "id": "e4d159c0.b80be",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Light: Set scene to Night Light",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "scene",
+        "service": "turn_on",
+        "entityId": "scene.night_light",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2587,
+        "y": 815,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "90bbf08d.d447a8",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Light: Switch to normal light",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "light",
+        "service": "turn_on",
+        "entityId": "light.ceiling_light",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2857,
+        "y": 875,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "36a865b9.6fcc4a",
+        "type": "subflow:bdc1e151.ee48b",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "",
+        "env": [],
+        "x": 2247,
+        "y": 815,
+        "wires": [
+            [
+                "a9afdf14.2fd4f8",
+                "e4d159c0.b80be"
+            ]
+        ]
+    },
+    {
+        "id": "2186e060.0dfc88",
+        "type": "subflow:bdc1e151.ee48b",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "",
+        "env": [],
+        "x": 2227,
+        "y": 1095,
+        "wires": [
+            [
+                "8bc924e5.08f258"
+            ]
+        ]
+    },
+    {
+        "id": "5ce9b0ed.eb0998",
+        "type": "subflow:bdc1e151.ee48b",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "",
+        "env": [],
+        "x": 2227,
+        "y": 1155,
+        "wires": [
+            [
+                "2588e38b.38046c"
+            ]
+        ]
+    },
+    {
+        "id": "a393afa2.52b578",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Lights: Turn off",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "light",
+        "service": "turn_off",
+        "entityId": "group.living_room_lights_nightlight",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2597,
+        "y": 995,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "b765aa50.6f8ca",
+        "type": "api-current-state",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Living Room Lights state",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "outputs": 1,
+        "halt_if": "",
+        "halt_if_type": "str",
+        "halt_if_compare": "is",
+        "override_topic": false,
+        "entity_id": "group.living_room_lights_nightlight",
+        "state_type": "str",
+        "state_location": "payload",
+        "override_payload": "msg",
+        "entity_location": "data",
+        "override_data": "msg",
+        "blockInputOverrides": false,
+        "x": 2227,
+        "y": 1015,
+        "wires": [
+            [
+                "6c111759.dd3af"
+            ]
+        ]
+    },
+    {
+        "id": "d5173e19.fae878",
+        "type": "api-call-service",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "Lights: Turn on",
+        "server": "20327e2.7052382",
+        "version": 1,
+        "debugenabled": false,
+        "service_domain": "scene",
+        "service": "turn_on",
+        "entityId": "scene.night_light",
+        "data": "",
+        "dataType": "jsonata",
+        "mergecontext": "",
+        "output_location": "",
+        "output_location_type": "none",
+        "mustacheAltTags": false,
+        "x": 2597,
+        "y": 1035,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6c111759.dd3af",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "On/Off",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "on",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "off",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 2427,
+        "y": 1015,
+        "wires": [
+            [
+                "a393afa2.52b578"
+            ],
+            [
+                "d5173e19.fae878"
+            ]
+        ]
+    },
+    {
+        "id": "df7f380e.88ff58",
+        "type": "switch",
+        "z": "b86ca53e.b4c1",
+        "name": "Deactivation gestures?",
+        "property": "true",
+        "propertyType": "jsonata",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "action.detailed_gesture in $flowContext('CUBE_DEACTIVATION_GESTURES')\tor\taction.gesture in $flowContext('CUBE_DEACTIVATION_GESTURES')",
+                "vt": "jsonata"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 857,
+        "y": 835,
+        "wires": [
+            [
+                "5cdb136d.a7c4d4"
+            ],
+            [
+                "cd6529d0.495c78"
+            ]
+        ]
+    },
+    {
+        "id": "5cdb136d.a7c4d4",
+        "type": "link out",
+        "z": "b86ca53e.b4c1",
+        "name": "",
+        "links": [
+            "4d9f4ea7.014df8"
+        ],
+        "x": 1062,
+        "y": 715,
+        "wires": []
+    },
+    {
+        "id": "6c83f4f4.a6773c",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "Stop the trigger",
+        "rules": [
+            {
+                "t": "set",
+                "p": "reset",
+                "pt": "msg",
+                "to": "true",
+                "tot": "bool"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1520,
+        "y": 1940,
+        "wires": [
+            [
+                "4e8750de.82efd",
+                "e808eec8.32408"
+            ]
+        ]
+    },
+    {
+        "id": "92402ffd.b363a",
+        "type": "debug",
+        "z": "b86ca53e.b4c1",
+        "name": "Debug action",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "$flowContext('cube')",
+        "targetType": "jsonata",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 837,
+        "y": 735,
+        "wires": []
+    },
+    {
+        "id": "e808eec8.32408",
+        "type": "trigger",
+        "z": "b86ca53e.b4c1",
+        "g": "5d7166b.ad23618",
+        "name": "Trigger after 10s of inactivity",
+        "op1": "",
+        "op2": "true",
+        "op1type": "nul",
+        "op2type": "bool",
+        "duration": "10",
+        "extend": true,
+        "overrideDelay": false,
+        "units": "s",
+        "reset": "",
+        "bytopic": "all",
+        "topic": "topic",
+        "outputs": 1,
+        "x": 1760,
+        "y": 1800,
+        "wires": [
+            [
+                "4e8750de.82efd"
+            ]
+        ]
+    },
+    {
+        "id": "ade06a22.546ae8",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "7fcc3d10.12ad74",
+        "name": "Get action.detailed_gesture",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "action.detailed_gesture",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1680,
+        "y": 1580,
+        "wires": [
+            [
+                "f61f61c0.04c3b8"
+            ]
+        ]
+    },
+    {
+        "id": "5f667ef6.145da",
+        "type": "change",
+        "z": "b86ca53e.b4c1",
+        "g": "7fcc3d10.12ad74",
+        "name": "Get action.gesture",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "action.gesture",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1650,
+        "y": 1640,
+        "wires": [
+            [
+                "f61f61c0.04c3b8"
+            ]
+        ]
+    },
+    {
+        "id": "40fe2439.c99504",
+        "type": "server-events",
+        "z": "b86ca53e.b4c1",
+        "name": "Conbee II",
+        "server": "20327e2.7052382",
+        "event_type": "deconz_event",
+        "exposeToHomeAssistant": false,
+        "haConfig": [
+            {
+                "property": "name",
+                "value": ""
+            },
+            {
+                "property": "icon",
+                "value": ""
+            }
+        ],
+        "waitForRunning": true,
+        "x": 197,
+        "y": 835,
+        "wires": [
+            [
+                "b5c2af0d.68b268",
+                "a10a02fa.ba648"
+            ]
+        ]
+    },
+    {
+        "id": "b5c2af0d.68b268",
+        "type": "function",
+        "z": "b86ca53e.b4c1",
+        "name": "Prepage message",
+        "func": "let  event = msg.payload.event\n\nif (event.device_id !== '95e2d5356fe0ba8c7816f6b0f0eee1d7') {\n    return\n}\n\nreturn {\n    event: event.event,\n    gesture: event.gesture,\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "x": 427,
+        "y": 835,
+        "wires": [
+            [
+                "162bca44.b53466"
+            ]
+        ]
+    },
+    {
+        "id": "bd91ff0d.c95918",
+        "type": "delay",
+        "z": "b86ca53e.b4c1",
+        "g": "52a586c.e523af8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 1687,
+        "y": 435,
+        "wires": [
+            [
+                "3fa72dd.50062d2"
+            ]
+        ]
+    },
+    {
+        "id": "233f4abf.d8def6",
+        "type": "delay",
+        "z": "b86ca53e.b4c1",
+        "g": "b12f3408.51e208",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 1687,
+        "y": 735,
+        "wires": [
+            [
+                "99e3985e.960d88"
+            ]
+        ]
+    },
+    {
+        "id": "aba59940.29dcd8",
+        "type": "delay",
+        "z": "b86ca53e.b4c1",
+        "g": "6406fa8b.157d94",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "4",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": true,
+        "x": 1687,
+        "y": 1375,
+        "wires": [
+            [
+                "5482aaa8.d0399c"
+            ]
+        ]
+    },
+    {
+        "id": "a10a02fa.ba648",
+        "type": "debug",
+        "z": "b86ca53e.b4c1",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.event",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 427,
+        "y": 735,
+        "wires": []
+    },
+    {
+        "id": "2f2c4816.8da99",
+        "type": "comment",
+        "z": "b86ca53e.b4c1",
+        "g": "74e585fe.1251b4",
+        "name": "README.md",
+        "info": "Visit [https://github.com/redphx/ultimate-magic-cube]([https://github.com/redphx/ultimate-magic-cube) for more information.",
+        "x": 230,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "20327e2.7052382",
+        "type": "server",
+        "name": "Home Assistant",
+        "addon": true
+    }
+]
